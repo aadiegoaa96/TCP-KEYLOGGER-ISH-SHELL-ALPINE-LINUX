@@ -19,7 +19,7 @@ def info():
     print(Fore.GREEN)
 
 # Función para nombrar manualmente los archivos de registro
-def manName():
+def manName(conn):
     while True:
         filename = input('Elija un nombre para el archivo entrante\n')
         filename = '/var/log/' + filename + '.txt'  # Cambiar la ruta según tu entorno
@@ -30,7 +30,7 @@ def manName():
         print(Fore.GREEN, '\nArchivo de registro creado con éxito.')
 
 # Función para nombrar automáticamente los archivos de registro
-def autoName():
+def autoName(conn):
     for i in range(1, 50):
         filename = '/var/log/' + f'log{i}.txt'  # Cambiar la ruta según tu entorno
         file = open(filename, 'wb')
@@ -74,10 +74,10 @@ while repeat:
         nc = input('Ingresa 1 o 2:\n')
         if nc == '1':
             repeat = False
-            autoName()
+            autoName(conn)
         elif nc == '2':
             repeat = False
-            manName()
+            manName(conn)
         else:
             raise Exception
     except:

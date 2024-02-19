@@ -5,8 +5,8 @@ from colorama import Fore
 # Función para obtener la dirección y el puerto de Ngrok
 def get_ngrok_address():
     # Modificar la dirección y el puerto según el túnel Ngrok
-    host = '0.tcp.ngrok.io'
-    port = 12345
+    host = '0d6e-201-123-90-187.ngrok-free.app'
+    port = 7272
     return host, port
 
 # Artístico

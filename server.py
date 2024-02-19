@@ -5,8 +5,8 @@ from colorama import Fore
 # Función para obtener la dirección y el puerto de Ngrok
 def get_ngrok_address():
     # Modificar la dirección y el puerto según el túnel Ngrok
-    host = '0d6e-201-123-90-187.ngrok-free.app'
-    port = 7272
+    host = '0.tcp.ngrok.io'
+    port = 12345
     return host, port
 
 # Artístico
@@ -61,7 +61,11 @@ try:
     print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
 except Exception as e:
     print(Fore.RED, "Error al conectar con Ngrok:", e)
-    exit()
+    print(Fore.YELLOW, "Intentando conectar al localhost en el puerto 8080")
+    s.bind(('localhost', 8080))  # Intentar conectar a localhost en un puerto específico
+    s.listen(1)
+    conn, addr = s.accept()
+    print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
 
 # Después de inicializar la conexión, elige nombrar los archivos de registro manual o automáticamente, con manejo de errores
 print(Fore.YELLOW, "¿Deseas nombrar los archivos manualmente o automáticamente?\n1- Nombramiento automático\n2- Nombramiento manual")

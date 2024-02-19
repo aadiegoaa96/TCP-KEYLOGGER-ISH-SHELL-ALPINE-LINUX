@@ -50,11 +50,18 @@ repeat = True
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hostname = socket.gethostname()
 print(Fore.CYAN, f'Nombre del host: {hostname}')
-s.bind(get_ngrok_address())
-s.listen(1)
-print('Esperando conexiones...')
-conn, addr = s.accept()
-print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
+
+# Intentar conectarse a la dirección de Ngrok
+try:
+    ngrok_address = get_ngrok_address()
+    s.bind(ngrok_address)
+    print('Esperando conexiones...')
+    s.listen(1)
+    conn, addr = s.accept()
+    print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
+except Exception as e:
+    print(Fore.RED, "Error al conectar con Ngrok:", e)
+    exit()
 
 # Después de inicializar la conexión, elige nombrar los archivos de registro manual o automáticamente, con manejo de errores
 print(Fore.YELLOW, "¿Deseas nombrar los archivos manualmente o automáticamente?\n1- Nombramiento automático\n2- Nombramiento manual")

